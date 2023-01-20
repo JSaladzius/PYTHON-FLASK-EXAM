@@ -1,0 +1,3 @@
+env/
+static/logos
+.env.local
