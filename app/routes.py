@@ -1,9 +1,11 @@
 from app import app, db, login_manager, bcrypt
 from flask_login import current_user ,login_required,login_user
 from flask import flash, redirect, render_template, request, url_for
-from app.forms import LoginForm , RegistrationForm
+from app.forms import LoginForm , RegistrationForm , AddBillForm
 
 from app.db_models.User import User
+from app.db_models.Group import Group
+from app.db_models.Bill import GroupBill
 
 
 @login_manager.user_loader
@@ -42,7 +44,7 @@ def register():
     form = RegistrationForm()
     if request.method == 'POST' and form.validate_on_submit():
         encrypted_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(name=form.name.data, email=form.e_mail.data, password=encrypted_password)
+        user = User(name = form.name.data, email = form.email.data, password = encrypted_password)
         db.session.add(user)
         db.session.commit()
         flash('Now Joined!', 'Success')
@@ -50,9 +52,24 @@ def register():
     return render_template('register.html', form=form)
 
 
+
 @app.route("/groups", methods=['GET','POST'])
 @login_required
 def groups():
-    form=LoginForm()
-    return render_template("groups.html", title="LOG iN", form=form)
+    groups = Group.query.all()
+    return render_template("groups.html", title="GROUPS" , groups=groups)
 
+
+@app.route("/bills", methods=['GET','POST'])
+@login_required
+def bills():
+    form = AddBillForm()
+    selected_group = request.form.get('id')
+    if request.method == 'POST' and form.validate_on_submit():
+        bill = GroupBill(discription = form.discription.data, amount = form.amount.data, group = selected_group)
+        db.session.add(bill)
+        db.session.commit()
+        flash('Bill added')
+        return redirect(url_for('bills'))
+
+    return render_template("bills.html", title="BILLS" , form=form)

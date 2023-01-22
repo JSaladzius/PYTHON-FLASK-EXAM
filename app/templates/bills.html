@@ -1,1 +1,76 @@
 <!-- mato pasirinktos grupės sąskaitas, taip pat gali pridėti naujas. -->
+{% extends "base_in.html" %}
+{% block content %}
+<br><br><br><br>
+<div class="d-flex p-2 flex-column align-items-center">
+    <h3 style="display:flex; align-self: flex-start; margin-left: 15rem;">
+      GROUP
+    </h3>
+<table class="table" align-middle style="color:white; width: 50rem; ">
+    <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Discription</th>
+          <th scope="col">Amount</th>  
+        </tr> 
+      </thead>
+      <tbody>
+        {% for bill in bills %}
+        <tr>
+          <th scope="row">{{bill['id']}}</th>
+          <td>{{bill['discription']}}s</td>
+          <td>{{bill['amount']}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>    
+</table>
+
+
+
+<div class="content-section; w-50 p-3; mx-auto pt-5" >
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">ADD BILL</legend>
+        <div class="form-group">
+            {{ form.discription.label(class="form-control-label") }}
+            {% if form.discription.errors %}
+                {{ form.discription(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.discription.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.discription(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.amount.label(class="form-control-label") }}
+            {% if form.amount.errors %}
+                {{ form.amount(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.amount.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.amount(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+       <br>
+    </fieldset>
+    <br>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-outline-warning") }} 
+    </div>
+</form>
+</div>
+
+
+
+
+
+
+</div>
+{% endblock content %}

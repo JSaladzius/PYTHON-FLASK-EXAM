@@ -4,7 +4,38 @@
       kuri leistų vartotojui įvesti grupės ID į kurią vartotojas nori prisijungti. -->
 {% extends "base_in.html" %}
 {% block content %}     
-
-<H1>You'r In!!</H1>
-
+<br><br><br>
+<H2>GROUPS</H2>
+<div class="btn-group " role="group" aria-label="Large button group" style="width: 80rem; height: 10rem;margin-top: 1rem">
+    {% for group in groups %}
+    <a href="{{url_for('bills', id=group.id)}}"   class="btn btn-warning" style="margin-right:2rem">
+        <h3 >ID:{{group['id']}}</h3> 
+        <input type="hidden" name="group" value="{{group['id']}}">
+        <h5>{{group['trip_name']}}</h5>
+    </a> 
+    {% endfor %}
+    <!-- <a href="/bills"   class="btn btn-warning" style="margin-right:2rem">
+        <h3>ID:1</h3>
+        <h5>Cinema</h5>
+    </a> 
+    <a href="/bills"   class="btn btn-warning" style="margin-right:2rem">
+        <h3>ID:</h3>
+        <h5>Trip</h5>
+    </a>  -->
+  </div>
+  
+  <!-- <div class="btn-group" role="group" aria-label="Large button group" style="width: 80rem; height: 10rem; margin-top: 2.5rem;">
+      <a href="/bills"   class="btn btn-warning" style="margin-right:2rem">
+          <h3>ID:</h3>
+          <h5>Trip</h5>
+      </a> 
+      <a href="/bills"   class="btn btn-warning" style="margin-right:2rem">
+          <h3>ID:</h3>
+          <h5>Trip</h5>
+      </a> 
+      <a href="/bills"   class="btn btn-warning" style="margin-right:2rem">
+          <h3>ID:</h3>
+          <h5>Trip</h5>
+      </a> 
+    </div> -->
 {% endblock content %}     

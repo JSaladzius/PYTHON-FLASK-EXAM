@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField , PasswordField, BooleanField, SubmitField
+from wtforms import StringField , PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.db_models.User import User
 
@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     name = StringField("Name" , [DataRequired()])
-    e_mail = StringField("Email" , [DataRequired()])
+    email = StringField("Email" , [DataRequired()])
     password = PasswordField("Password" , [DataRequired()])
     repeated_password = PasswordField("Repeat password" , [EqualTo('password', "Passwords must match.")])
     submit = SubmitField('Register')
@@ -21,6 +21,11 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('Email is taken')
+
+class AddBillForm(FlaskForm):
+    discription = StringField("Discription", [DataRequired()])
+    amount = IntegerField('Amount', [DataRequired()])
+    submit = SubmitField('Post')
 
 
 
