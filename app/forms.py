@@ -22,6 +22,10 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('Email is taken')
 
+class JoinGroupForm(FlaskForm):
+    group_id = IntegerField('Group ID', [DataRequired()])
+    submit = SubmitField('Join')
+
 class AddBillForm(FlaskForm):
     discription = StringField("Discription", [DataRequired()])
     amount = IntegerField('Amount', [DataRequired()])

@@ -1,7 +1,7 @@
 from app import app, db, login_manager, bcrypt
 from flask_login import current_user ,login_required,login_user
 from flask import flash, redirect, render_template, request, url_for
-from app.forms import LoginForm , RegistrationForm , AddBillForm
+from app.forms import LoginForm , RegistrationForm , AddBillForm , JoinGroupForm
 
 from app.db_models.User import User
 from app.db_models.Group import Group
@@ -17,7 +17,6 @@ def load_user(user_id):
 def home():
     form=LoginForm()
     return render_template("base.html", title="LOG iN", form=form)
-
 
 
 @app.route("/login" , methods=['GET','POST'])
@@ -57,16 +56,20 @@ def register():
 @login_required
 def groups():
     groups = Group.query.all()
-    return render_template("groups.html", title="GROUPS" , groups=groups)
+    form = JoinGroupForm()
+    # if request.method == 'POST' and form.validate_on_submit():
+    #     group = Group(id = form.group_id )  
+    #     # db.session.add(current_user)
+    return render_template("groups.html", title="GROUPS" , groups=groups , form=form)
 
 
 @app.route("/bills", methods=['GET','POST'])
 @login_required
 def bills():
     form = AddBillForm()
-    selected_group = request.form.get('id')
+    # selected_group = request.form.get('id')
     if request.method == 'POST' and form.validate_on_submit():
-        bill = GroupBill(discription = form.discription.data, amount = form.amount.data, group = selected_group)
+        bill = GroupBill(discription = form.discription.data, amount = form.amount.data)
         db.session.add(bill)
         db.session.commit()
         flash('Bill added')
