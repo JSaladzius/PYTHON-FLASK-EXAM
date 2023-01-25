@@ -1,4 +1,6 @@
 from app import db
+from flask_authorize import RestrictionsMixin
+
 
 user_group = db.Table('user_group', db.metadata,
     db.Column('id', db.Integer , primary_key=True),
@@ -10,8 +12,8 @@ class Group(db.Model):
     __tablename__ = "groups"
     id = db.Column(db.Integer, primary_key=True)
     trip_name = db.Column(db.String(255), nullable=False)
-    # bills = db.Column(db.Integer, db.ForeignKey('Bills.id'))
-    users = db.relationship('User',secondary=user_group, backref='group')
+    users = db.relationship('User',secondary=user_group)
+    # , backref='group'
     
     def __init__(self, id, trip_name):
         self.id = id

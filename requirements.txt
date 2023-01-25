@@ -15,6 +15,8 @@ idna==3.4
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.2
+pycodestyle==2.9.1
 SQLAlchemy==1.4.46
+tomli==2.0.1
 Werkzeug==2.2.2
 WTForms==3.0.1

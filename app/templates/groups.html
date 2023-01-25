@@ -4,14 +4,20 @@
       kuri leistų vartotojui įvesti grupės ID į kurią vartotojas nori prisijungti. -->
 {% extends "base_in.html" %}
 {% block content %}
-<br><br><br>
+<br><br><br>  
+<div style="display: flex; align-items:center ; justify-content: space-between; ">       
 <H2>GROUPS</H2>
+{% if current_user.is_authenticated %}
+            <li style="list-style:none; margin-right:3rem;"><a href="{{ url_for('logout') }}" class="nav-link px-2 ">Atsijungti</a></li>
+{% else %}
+{%endif%}
+</div>  
 <div class="btn-group " role="group" aria-label="Large button group"
     style="width: 80rem; height: 10rem;margin-top: 1rem">
     {% for group in groups %}
-    <a href="{{url_for('bills', id=group.id)}}" class="btn btn-warning" style="margin-right:2rem">
+    <!-- <a href="{{ url_for('bills', group_id=group.id) }}" class="btn btn-warning" style="margin-right:2rem"> -->
+    <a href="{{url_for('bills')}}" class="btn btn-warning" style="margin-right:2rem">
         <h3>ID:{{group['id']}}</h3>
-        <input type="hidden" name="group" value="{{group['id']}}">
         <h5>{{group['trip_name']}}</h5>
     </a>
     {% endfor %}

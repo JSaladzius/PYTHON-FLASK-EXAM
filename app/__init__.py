@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bcrypt import Bcrypt
+from flask_authorize import Authorize
 
 base_dir = os.path.dirname(__file__)
 
@@ -19,7 +20,7 @@ db.create_all()
 login_manager = LoginManager(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
+authorize = Authorize(app)
 
-
-from app.db_models import Bill , Group
+from app.db_models import Bill , Group, User
 from app import routes

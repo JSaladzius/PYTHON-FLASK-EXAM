@@ -31,5 +31,8 @@ class AddBillForm(FlaskForm):
     amount = IntegerField('Amount', [DataRequired()])
     submit = SubmitField('Post')
 
+# class SelectGroupForm(FlaskForm):
+#     select = SubmitField('Select')
+
 
 

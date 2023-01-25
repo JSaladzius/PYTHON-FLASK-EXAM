@@ -1,5 +1,6 @@
 from app import db
 from flask_login import UserMixin
+from app.db_models.Group import user_group
 
 class User(db.Model, UserMixin):
     __tablename__ = "all_users"
@@ -7,6 +8,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255),unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    # groups = db.relationship('Group', secondary=user_group)
 
     def __init__(self, name, email , password):
         self.name = name

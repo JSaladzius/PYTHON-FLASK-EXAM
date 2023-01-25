@@ -4,9 +4,9 @@
 <br><br><br><br>
 <div class="d-flex p-2 flex-column align-items-center">
     <h3 style="display:flex; align-self: flex-start; margin-left: 15rem;">
-      GROUP
+      GROUP BILLS
     </h3>
-<table class="table" align-middle style="color:white; width: 50rem; ">
+<table class="table" align-middle style="color:white; width: 50rem; text-align: center; text">
     <thead>
         <tr>
           <th scope="col">#</th>
@@ -18,8 +18,8 @@
         {% for bill in bills %}
         <tr>
           <th scope="row">{{bill['id']}}</th>
-          <td>{{bill['discription']}}s</td>
-          <td>{{bill['amount']}}</td>
+          <td>{{bill['discription']}}</td>
+          <td>{{bill['amount']}} &#x20AC</td>
         </tr>
         {% endfor %}
       </tbody>    
