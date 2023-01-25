@@ -1,3 +1,6 @@
 env/
+db_models/__pycache__
+app/__pycache__
 static/logos
 .env.local
+data.db

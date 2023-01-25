@@ -2,3 +2,50 @@
     Paspaudus ant grupės vartotojas yra nukreipiamas į tos grupės bills puslapį.
      Šio puslapio apačioje taip pat turėtų būti forma,
       kuri leistų vartotojui įvesti grupės ID į kurią vartotojas nori prisijungti. -->
+{% extends "base_in.html" %}
+{% block content %}
+<br><br><br>  
+<div style="display: flex; align-items:center ; justify-content: space-between; ">       
+<H2>GROUPS</H2>
+{% if current_user.is_authenticated %}
+            <li style="list-style:none; margin-right:3rem;"><a href="{{ url_for('logout') }}" class="nav-link px-2 ">Atsijungti</a></li>
+{% else %}
+{%endif%}
+</div>  
+<div class="btn-group " role="group" aria-label="Large button group"
+    style="width: 80rem; height: 10rem;margin-top: 1rem">
+    {% for group in groups %}
+    <!-- <a href="{{ url_for('bills', group_id=group.id) }}" class="btn btn-warning" style="margin-right:2rem"> -->
+    <a href="{{url_for('bills')}}" class="btn btn-warning" style="margin-right:2rem">
+        <h3>ID:{{group['id']}}</h3>
+        <h5>{{group['trip_name']}}</h5>
+    </a>
+    {% endfor %}
+</div>
+<div class="content-section; w-50 p-3; mx-auto pt-5" >
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">JOIN GROUP</legend>
+          <div class="form-group">
+        {{ form.group_id.label(class="form-control-label") }}
+        {% if form.group_id.errors %}
+        {{ form.group_id(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.group_id.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{ form.group_id(class="form-control form-control-lg") }}
+        {% endif %}
+    </div>
+    <br>
+    </fieldset>
+    <br>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-outline-warning") }}
+    </div>
+    </form>
+
+    {% endblock content %}
