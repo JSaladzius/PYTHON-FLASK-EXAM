@@ -103,17 +103,9 @@ def groups():
 @app.route("/bills/<int:group_id>", methods=['GET','POST'])
 @login_required
 def bills(group_id):
-    # bills = GroupBill.query.all()
     session['selected_group_id'] = group_id
     form = AddBillForm()
     bills = GroupBill.query.filter_by(id_group=group_id).all()
-    # if request.method == 'POST' and form.validate_on_submit():
-    #     bill = GroupBill(discription = form.discription.data, amount = form.amount.data, id_group =group_id)
-    #     db.session.add(bill)
-    #     db.session.commit()
-    #     flash('Bill added')
-    #     return redirect(url_for('bills'))
-
     return render_template("bills.html", title="BILLS" ,form=form, bills = bills, id_group = group_id)
     
 

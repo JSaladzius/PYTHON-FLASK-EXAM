@@ -44,11 +44,6 @@ bill2 = GroupBill( 'Vėliavėlės', '7','1' )
 bill3 = GroupBill( 'Kinobilietai', '20' , '3')
 bill4 = GroupBill( 'Kalnas alyvuogiu', '30' , '2')
 
-# bill1.id_group.append(group1)
-# bill2.groups.append(group1)
-# bill3.groups.append(group3)
-# bill4.groups.append(group2)
-
 db.session.add_all([bill1, bill2, bill3])
 db.session.commit()
 
