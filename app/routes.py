@@ -1,12 +1,11 @@
 from app import app, db, login_manager, bcrypt
 from flask_login import current_user ,login_required,login_user,logout_user
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for, session
 from app.forms import LoginForm , RegistrationForm , AddBillForm , JoinGroupForm
 # from flask_authorize.plugin import Authorizer
 # from flask_authorize import RestrictionsMixin, AllowancesMixin , PermissionsMixin, Authorize
 # from flask import jsonify
 from app.db_models.Group import user_group
-
 
 
 from app.db_models.User import User
@@ -63,48 +62,72 @@ def register():
     return render_template('register.html', form=form)
 
 
-
 @app.route("/groups", methods=['GET','POST'])
 @login_required
 def groups():
-    groups = Group.query.all()
-    # c_user = User.query.filter_by(id=current_user.id).first()
-    # print(c_user.id)
+    
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    groups_f = user.groups
+
     form = JoinGroupForm()
-    # if form.validate_on_submit() and not c_user:
-    #     print(join_group(c_user.id), 'RRRRRRRRRRRRRRR')
-    #     groups.user.append(c_user)
-    #     join_group = user_group(user_id = c_user ,group_id = form.group_id )
-    #     db.session.add(join_group)
-    #     db.session.commit()
-    #     return redirect(url_for('groups'))
-    # else:
-    #     flash('Allready in the group', 'warning')
-    return render_template("groups.html", title="GROUPS" , groups=groups , form=form)
+    if form.validate_on_submit():
+        group_id = request.form.get("group_id")
+        group_id = int(group_id)
+        print(type(group_id))
+        group = Group.query.filter_by(id=group_id).first()
+        print(group)
+        if not group:
+            print ("Group not found", 404)
+            flash('Group not found', 'warning')
+
+        else:
+            is_in_group = group_id in [group.id for group in user.groups]
+            g = group.id
+            g = str(g)
+            if is_in_group:
+                
+                print('Allready in group', g)
+                flash('Allready in group' + ' ' + g )
+            else:
+                user.groups.append(group)
+                db.session.commit()
+                print ("User added to group")
+                flash('Joined group '+ ' ' + g )
+                return redirect(url_for('groups'))
+   
+    return render_template("groups.html", title="GROUPS" , groups=groups_f , form=form)
+
         
 
-
-
+@app.route("/bills/<int:group_id>", methods=['GET','POST'])
+@login_required
+def bills(group_id):
+    # bills = GroupBill.query.all()
+    session['selected_group_id'] = group_id
+    form = AddBillForm()
+    bills = GroupBill.query.filter_by(id_group=group_id).all()
     # if request.method == 'POST' and form.validate_on_submit():
-    #     user_id = current_user.id
-    #     print(user_id, "RRRRRRRRRRRRRRRRR")
-    #     join_group = user_group(user_id = user_id ,group_id = form.group_id )
-    #     db.session.add(join_group)
+    #     bill = GroupBill(discription = form.discription.data, amount = form.amount.data, id_group =group_id)
+    #     db.session.add(bill)
+    #     db.session.commit()
+    #     flash('Bill added')
+    #     return redirect(url_for('bills'))
+
+    return render_template("bills.html", title="BILLS" ,form=form, bills = bills, id_group = group_id)
     
 
+@app.route('/bills', methods=['POST'])
+def add_bill():
+    group_id = session.get('selected_group_id')
 
-@app.route("/bills", methods=['GET','POST'])
-@login_required
-def bills():
-    bills = GroupBill.query.all()
     form = AddBillForm()
+    bills = GroupBill.query.filter_by(id_group=group_id).all()
     if request.method == 'POST' and form.validate_on_submit():
-        bill = GroupBill(discription = form.discription.data, amount = form.amount.data)
+        bill = GroupBill(discription = form.discription.data, amount = form.amount.data, id_group =group_id)
         db.session.add(bill)
         db.session.commit()
-        flash('Bill added')
-        return redirect(url_for('bills'))
-
-    return render_template("bills.html", title="BILLS" , form=form, bills = bills)
+        flash('Bill added')    
+    return redirect(url_for('bills', group_id=group_id))
 
 

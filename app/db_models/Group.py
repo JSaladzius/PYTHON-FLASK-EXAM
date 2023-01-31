@@ -12,9 +12,7 @@ class Group(db.Model):
     __tablename__ = "groups"
     id = db.Column(db.Integer, primary_key=True)
     trip_name = db.Column(db.String(255), nullable=False)
-    users = db.relationship('User',secondary=user_group)
-    # , backref='group'
-    
+ 
     def __init__(self, id, trip_name):
         self.id = id
         self.trip_name = trip_name

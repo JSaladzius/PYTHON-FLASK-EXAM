@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255),unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    # groups = db.relationship('Group', secondary=user_group)
+    groups = db.relationship("Group", secondary="user_group", backref=db.backref("users", lazy="dynamic"))
 
     def __init__(self, name, email , password):
         self.name = name
