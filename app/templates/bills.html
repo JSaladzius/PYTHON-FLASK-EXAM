@@ -4,67 +4,70 @@
 <br><br><br><br>
 <div class="d-flex p-2 flex-column align-items-center">
     <h3 style="display:flex; align-self: flex-start; margin-left: 15rem;">
-      GROUP BILLS
+        GROUP BILLS
     </h3>
-<table class="table" align-middle style="color:white; width: 50rem; text-align: center; text">
-    <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Discription</th>
-          <th scope="col">Amount</th>  
-        </tr> 
-      </thead>
-      <tbody>
-        {% for bill in bills %}
-        <tr>
-          <th scope="row">{{bill['id']}}</th>
-          <td>{{bill['discription']}}</td>
-          <td>{{bill['amount']}} &#x20AC</td>
-        </tr>
-        {% endfor %}
-      </tbody>    
-</table>
+    <table class="table" align-middle style="color:white; width: 50rem; text-align: center; text">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Discription</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in bills %}
+            <tr>
+                <th scope="row">{{bill['id']}}</th>
+                <td>{{bill['discription']}}</td>
+                <td>{{bill['amount']}} &#x20AC</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 
 
-<div class="content-section; w-50 p-3; mx-auto pt-5" >
-  <form method="POST" action="">
-    {{ form.hidden_tag() }}
-    <fieldset class="form-group">
-        <legend class="border-bottom mb-4">ADD BILL</legend>
-        <div class="form-group">
-            {{ form.discription.label(class="form-control-label") }}
-            {% if form.discription.errors %}
-                {{ form.discription(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.discription.errors %}
+    <div class="content-section; w-50 p-3; mx-auto pt-5">
+        <form method="POST" action="{{ url_for('add_bill') }}">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">ADD BILL</legend>
+                <div class="form-group">
+                    {{ form.discription.label(class="form-control-label") }}
+                    {% if form.discription.errors %}
+                    {{ form.discription(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.discription.errors %}
                         <span>{{ error }}</span>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.discription(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
-            {% else %}
-                {{ form.discription(class="form-control form-control-lg") }}
-            {% endif %}
-        </div>
-        <div class="form-group">
-            {{ form.amount.label(class="form-control-label") }}
-            {% if form.amount.errors %}
-                {{ form.amount(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.amount.errors %}
+                <div class="form-group">
+                    {{ form.amount.label(class="form-control-label") }}
+                    {% if form.amount.errors %}
+                    {{ form.amount(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.amount.errors %}
                         <span>{{ error }}</span>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.amount(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
-            {% else %}
-                {{ form.amount(class="form-control form-control-lg") }}
-            {% endif %}
+                <br>
+            </fieldset>
+            <br>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-warning") }}
+            </div>
+        </form>
+        <div class="content-section;  p-3; mx-auto pt-5" style= "text-align:center; max-width: 30%;">
+            {% include "flash.html" %}
         </div>
-       <br>
-    </fieldset>
-    <br>
-    <div class="form-group">
-        {{ form.submit(class="btn btn-outline-warning") }} 
     </div>
-</form>
-</div>
 </div>
 {% endblock content %}

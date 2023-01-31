@@ -11,13 +11,10 @@ class GroupBill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     discription = db.Column(db.String(255),nullable=False)
     amount = db.Column(db.Integer,nullable=False)
+    id_group = db.Column(db.Integer)
     
-    # user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # user = db.relationship("User")
-    # group_id = db.Column(db.Integer, db.ForeignKey("groups.id"))
-    # group = db.relationship("Group")
-
-    def __init__(self, discription , amount):
+    def __init__(self, discription , amount, id_group):
         self.discription = discription
         self.amount = amount
+        self.id_group = id_group
         
